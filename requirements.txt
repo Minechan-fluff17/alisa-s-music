@@ -1,0 +1,8 @@
+python-telegram-bot>=21.1,<23
+spotipy==2.23.0
+flask
+beautifulsoup4
+requests
+google-api-python-client
+ytmusicapi
+pytube
