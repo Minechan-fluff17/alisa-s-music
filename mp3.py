@@ -7,7 +7,12 @@ async def download_mp3(update, context):
     await update.message.reply_text("Download MP3 functionality is being fixed.")
 
 def main():
-    updater = Application.builder().token(os.getenv("TG_TOKEN")).build()
+    token_env = os.getenv("TELEGRAM_TOKEN_ENV", "TG_TOKEN")
+    token = os.getenv(token_env)
+    if not token:
+        raise RuntimeError(f"Missing Telegram bot secret configured by {token_env}")
+
+    updater = Application.builder().token(token).build()
     updater.add_handler(CommandHandler("mp3", download_mp3))
     updater.run_polling()
 

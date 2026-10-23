@@ -46,7 +46,8 @@ def keep_alive():
 
 
 # === API ключі ===
-TG_TOKEN = os.getenv("TG_TOKEN")
+TELEGRAM_TOKEN_ENV = os.getenv("TELEGRAM_TOKEN_ENV", "TG_TOKEN")
+TG_TOKEN = os.getenv(TELEGRAM_TOKEN_ENV)
 SPOTIFY_ID = os.getenv("SPOTIFY_ID")
 SPOTIFY_SECRET = os.getenv("SPOTIFY_SECRET")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
@@ -594,6 +595,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === Запуск бота ===
 def main():
+    if not TG_TOKEN:
+        raise RuntimeError(
+            f"Missing Telegram bot secret configured by {TELEGRAM_TOKEN_ENV}"
+        )
+
     telegram_request = HTTPXRequest(
         connect_timeout=15,
         read_timeout=30,
